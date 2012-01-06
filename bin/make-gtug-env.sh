@@ -2,7 +2,7 @@
 BINDIR=$(cd `dirname $0` && pwd)
 PROJDIR=`dirname $BINDIR`
 DOWN_DIR="$HOME/Downloads"
-AE_DIR=$PROJDIR/google_appengine
+AE_DIR=$PROJDIR/appengine
 ENV_DIR=$PROJDIR/gtugenv
 
 AE_VERSION="1.6.1"
@@ -27,6 +27,7 @@ function download_zip {
 
     download $1
 
+    rm -rf $DEST_PATH
     mkdir $DEST_PATH
     unzip -q $DOWN_DIR/$FILE -d $DEST_PATH
 }
@@ -45,7 +46,7 @@ fi
 read -p "Install App Engine? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf appengine
-    download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $PROJDIR
+    download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $AE_DIR
     ln -f -s $AE_DIR/dev_appserver.py $AE_DIR/appcfg.py $ENV_DIR/bin
 fi
 
