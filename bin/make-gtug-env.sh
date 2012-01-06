@@ -8,6 +8,12 @@ ENV_DIR=$PROJDIR/gtugenv
 
 AE_VERSION="1.6.1"
 
+if [ `uname` == "Darwin" ]; then
+    platform = "Mac"
+else
+    platform = "Linux"
+fi
+
 # download <url> - do nothing if already downloaded
 function download {
     FILE_PATH=$1
@@ -36,12 +42,19 @@ function download_zip {
 cd $PROJDIR
 
 if ! type python2.5 > /dev/null; then
-    echo "Please install Python 2.5."
-    exit 1
+    echo "You need Python 2.5 to use App Engine."
+    if [ $platform == "Mac" ]; then
+        echo "Please install Python 2.5.6 from http://www.python.org/getit/releases/2.5.6/"
+        echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
+        exit 1
+    else
+        sudo apt-get python2.5
+    fi
 fi
 
+# Will this ever happen?
 if ! type easy_install > /dev/null; then
-    echo "Please install easy_install."
+    echo "Please install easy_install from http://pypi.python.org/pypi/setuptools."
     exit 1
 fi
 
