@@ -71,13 +71,17 @@ if [ "$REPLY" = "y" ]; then
     rm -rf $ENV_DIR
     virtualenv --python=python2.5 $ENV_DIR
     ln -f -s $ENV_DIR/bin/activate
+    source activate
+    pip install PIL
 fi
+
+
 
 read -p "Install App Engine? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf appengine
     download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $AE_DIR
-    ln -f -s $AE_BIN/dev_appserver.py $AE_BIN/appcfg.py $ENV_DIR/bin
+    ln -f -s $AE_BIN/*.py $ENV_DIR/bin
 fi
 
 echo "Type 'source activate' to use this environment"
