@@ -18,9 +18,9 @@ Bring your laptop (Windows, Mac, or Linux) with you; we'll have developers able 
 any rough patches you have with tool installation. Our goal is to get everyone able to modify,
 build, and deploy their own copy of the skeleton app by the end of the evening.
 
-When: Thursday, Jan 12, 2012 from 6pm - 9pm
-Where: StartPad, 811 First Ave, Suite 480, Seattle
-Phone: (206) 388-3466
+    When: Thursday, Jan 12, 2012 from 6pm - 9pm
+    Where: StartPad, 811 First Ave, Suite 480, Seattle
+    Phone: (206) 388-3466
 
   [GitHub]: https://github.com/
   [App Engine]: http://code.google.com/appengine/
