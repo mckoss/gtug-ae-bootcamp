@@ -35,8 +35,6 @@ function download_zip {
 
 cd $PROJDIR
 
-set -x
-
 read -p "Create local Python environment? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf $ENV_DIR
