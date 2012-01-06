@@ -1,3 +1,7 @@
+*.pyc
+*~
+*#
 appengine/*
 gtugenv/*
 activate
+.DS_Store
