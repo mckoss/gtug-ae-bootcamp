@@ -1,7 +1,8 @@
 # Event Announcment
 
 We want everyone at Startup Weekend's January 13, 2012 event to hit the ground running. So we're
-running a boot camp for all participants on Startup Weekend Eve that will give you the tools you
+running a boot camp for all participants on
+[Startup Weekend Eve](http://seattleswgtugbootcamp.eventbrite.com/) that will give you the tools you
 need to be ready to start working immediately on your project. If you attend, you will:
 
 1. Get your computer configured with all the tools needed to work collaboratively with your future
