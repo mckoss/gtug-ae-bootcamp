@@ -66,7 +66,7 @@ if ! type virtualenv > /dev/null; then
     sudo pip install virtualenv
 fi
 
-read -p "Create local Python environment? (y/n): "
+read -p "Create local Python 2.5 environment? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf $ENV_DIR
     virtualenv --python=python2.5 $ENV_DIR
@@ -75,9 +75,7 @@ if [ "$REPLY" = "y" ]; then
     pip install PIL
 fi
 
-
-
-read -p "Install App Engine? (y/n): "
+read -p "Install App Engine ($AE_VERSION)? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf appengine
     download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $AE_DIR
