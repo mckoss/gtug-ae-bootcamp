@@ -3,6 +3,7 @@ BINDIR=$(cd `dirname $0` && pwd)
 PROJDIR=`dirname $BINDIR`
 DOWN_DIR="$HOME/Downloads"
 AE_DIR=$PROJDIR/appengine
+AE_BIN=$AE_DIR/google_appengine
 ENV_DIR=$PROJDIR/gtugenv
 
 AE_VERSION="1.6.1"
@@ -34,20 +35,20 @@ function download_zip {
 
 cd $PROJDIR
 
-if [ -d gtugenv ]; then
-    read -p "Re-create local Python environment? (y/n): "
-    if [ "$REPLY" = "y" ]; then
-        rm -rf gtugenv
-        virtualenv --python=python2.5 $ENV_DIR
-        ln -f -s $ENV_DIR/bin/activate
-    fi
+set -x
+
+read -p "Create local Python environment? (y/n): "
+if [ "$REPLY" = "y" ]; then
+    rm -rf $ENV_DIR
+    virtualenv --python=python2.5 $ENV_DIR
+    ln -f -s $ENV_DIR/bin/activate
 fi
 
 read -p "Install App Engine? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf appengine
     download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $AE_DIR
-    ln -f -s $AE_DIR/dev_appserver.py $AE_DIR/appcfg.py $ENV_DIR/bin
+    ln -f -s $AE_BIN/dev_appserver.py $AE_BIN/appcfg.py $ENV_DIR/bin
 fi
 
 echo "Type 'source activate' to use this environment"
