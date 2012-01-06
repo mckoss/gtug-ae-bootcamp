@@ -9,9 +9,9 @@ ENV_DIR=$PROJDIR/gtugenv
 AE_VERSION="1.6.1"
 
 if [ `uname` == "Darwin" ]; then
-    platform = "Mac"
+    platform="Mac"
 else
-    platform = "Linux"
+    platform="Linux"
 fi
 
 # download <url> - do nothing if already downloaded
