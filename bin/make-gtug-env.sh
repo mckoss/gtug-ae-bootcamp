@@ -35,6 +35,24 @@ function download_zip {
 
 cd $PROJDIR
 
+if ! type python2.5 > /dev/null; then
+    echo "Please install Python 2.5."
+    exit 1
+fi
+
+if ! type easy_install > /dev/null; then
+    echo "Please install easy_install."
+    exit 1
+fi
+
+if ! type pip > /dev/null; then
+    sudo easy-install pip
+fi
+
+if ! type virtualenv > /dev/null; then
+    sudo pip install virtualenv
+fi
+
 read -p "Create local Python environment? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf $ENV_DIR
