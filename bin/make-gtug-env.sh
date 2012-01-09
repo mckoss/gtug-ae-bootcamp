@@ -8,11 +8,18 @@ ENV_DIR=$PROJDIR/gtugenv
 
 AE_VERSION="1.6.1"
 
+SUDO=sudo
+
 if [ `uname` == "Darwin" ]; then
     platform="Mac"
+elif [[ `uname` == *W32* ]]; then
+    platform="Windows"
+    SUDO=""
 else
     platform="Linux"
 fi
+
+echo "I think your machine is running $platform ..."
 
 # download <url> - do nothing if already downloaded
 function download {
@@ -39,16 +46,23 @@ function download_zip {
     unzip -q $DOWN_DIR/$FILE -d $DEST_PATH
 }
 
+function check_prog {
+    type $1 > /dev/null 2>&1
+}
+
 cd $PROJDIR
 
-if ! type python2.5 > /dev/null; then
+if ! check_prog python2.5 ; then
     echo "You need Python 2.5 to use App Engine."
-    if [ $platform == "Mac" ]; then
+    if [ $platform == "Windows" ]; then
+        download http://www.python.org/ftp/python/2.5.4/python-2.5.4.msi
+        msiexec -i $DOWN_DIR/$FILE
+    elif [ $platform == "Mac" ]; then
         echo "Please install Python 2.5.6 from http://www.python.org/getit/releases/2.5.6/"
         echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
         exit 1
     else
-        sudo apt-get python2.5
+        $SUDO apt-get python2.5
     fi
 fi
 
@@ -59,11 +73,11 @@ if ! type easy_install > /dev/null; then
 fi
 
 if ! type pip > /dev/null; then
-    sudo easy-install pip
+    $SUDO easy-install pip
 fi
 
 if ! type virtualenv > /dev/null; then
-    sudo pip install virtualenv
+    $SUDO pip install virtualenv
 fi
 
 read -p "Create local Python 2.5 environment? (y/n): "
