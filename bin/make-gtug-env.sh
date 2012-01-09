@@ -7,6 +7,7 @@ AE_BIN=$AE_DIR/google_appengine
 ENV_DIR=$PROJDIR/gtugenv
 
 AE_VERSION="1.6.1"
+PYTHON_CMD=python2.5
 
 SUDO=sudo
 
@@ -15,6 +16,9 @@ if [ `uname` == "Darwin" ]; then
 elif [[ `uname` == *W32* ]]; then
     platform="Windows"
     SUDO=""
+    PYTHON_VER="2.5.4"
+    PYTHON_CMD=python2.5.exe
+    SETUP_TOOLS=setuptools-0.6c11-py2.5.egg
 else
     platform="Linux"
 fi
@@ -26,7 +30,9 @@ function download {
     FILE_PATH=$1
     FILE="$( basename "$FILE_PATH" )"
 
+    mkdir -p $DOWN_DIR
     if [ ! -f $DOWN_DIR/$FILE ]; then
+        echo "Downloading $1"
         if ! curl $FILE_PATH --output $DOWN_DIR/$FILE; then
             echo "Failed to download $FILE_PATH"
             exit 1
@@ -55,8 +61,14 @@ cd $PROJDIR
 if ! check_prog python2.5 ; then
     echo "You need Python 2.5 to use App Engine."
     if [ $platform == "Windows" ]; then
-        download http://www.python.org/ftp/python/2.5.4/python-2.5.4.msi
-        msiexec -i $DOWN_DIR/$FILE
+        download http://www.python.org/ftp/python/$PYTHON_VER/python-$PYTHON_VER.msi
+        cd $DOWN_DIR
+        msiexec -i $FILE
+        ln -s /c/Python25/python.exe /c/Python25/python2.5.exe
+        PATH=$PATH:/c/Python25:/c/Python25/Scripts
+        export PATH
+        echo 'PATH=$PATH:/c/Python25:/c/Python25/Scripts' >> $HOME/.profile
+        cd $PROJ_DIR
     elif [ $platform == "Mac" ]; then
         echo "Please install Python 2.5.6 from http://www.python.org/getit/releases/2.5.6/"
         echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
@@ -66,25 +78,33 @@ if ! check_prog python2.5 ; then
     fi
 fi
 
-# Will this ever happen?
-if ! type easy_install > /dev/null; then
-    echo "Please install easy_install from http://pypi.python.org/pypi/setuptools."
-    exit 1
+if ! check_prog easy_install ; then
+    if [ $platform == "Windows" ]; then
+        download http://pypi.python.org/packages/2.5/s/setuptools/$SETUP_TOOLS
+        sh $DOWN_DIR/$SETUP_TOOLS
+    else
+        echo "Please install easy_install from http://pypi.python.org/pypi/setuptools."
+        exit 1
+    fi
 fi
 
-if ! type pip > /dev/null; then
-    $SUDO easy-install pip
+if ! check_prog pip ; then
+    $SUDO easy_install pip
 fi
 
-if ! type virtualenv > /dev/null; then
+if ! check_prog virtualenv ; then
     $SUDO pip install virtualenv
 fi
 
 read -p "Create local Python 2.5 environment? (y/n): "
 if [ "$REPLY" = "y" ]; then
     rm -rf $ENV_DIR
-    virtualenv --python=python2.5 $ENV_DIR
-    ln -f -s $ENV_DIR/bin/activate
+    virtualenv --python=$PYTHON_CMD $ENV_DIR
+    if [ $platform = "Windows" ]; then
+        ln -f -s $ENV_DIR/Scripts/activate.bat
+    else
+        ln -f -s $ENV_DIR/bin/activate
+    fi
     source activate
     pip install PIL
 fi

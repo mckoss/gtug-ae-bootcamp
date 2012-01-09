@@ -4,4 +4,5 @@
 appengine/*
 gtugenv/*
 activate
+activate.bat
 .DS_Store
