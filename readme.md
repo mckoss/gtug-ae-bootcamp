@@ -23,14 +23,14 @@ build, and deploy their own copy of the skeleton app by the end of the evening.
     Where: StartPad, 811 First Ave, Suite 480, Seattle
     Phone: (206) 388-3466
 
-    [GitHub]: https://github.com/
-    [App Engine]: http://code.google.com/appengine/
-    [Bootstrap]: http://twitter.github.com/bootstrap/
-    [Backbone.js]: http://documentcloud.github.com/backbone/
-    [jQuery]: http://jquery.com/
-    [Namespace.js]: https://github.com/mckoss/namespace
-    [QUnit]: https://github.com/jquery/qunit
-    [RequireJS]: http://requirejs.org/
+  [GitHub]: https://github.com/
+  [App Engine]: http://code.google.com/appengine/
+  [Bootstrap]: http://twitter.github.com/bootstrap/
+  [Backbone.js]: http://documentcloud.github.com/backbone/
+  [jQuery]: http://jquery.com/
+  [Namespace.js]: https://github.com/mckoss/namespace
+  [QUnit]: https://github.com/jquery/qunit
+  [RequireJS]: http://requirejs.org/
 
 # Setup Instructions
 
