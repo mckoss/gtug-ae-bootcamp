@@ -1,43 +1,41 @@
-namespace.module('seagtug.todo', function(exports, require) {
+// An example Backbone application contributed by
+// [JÃ©rÃ´me Gravel-Niquet](http://jgn.me/).
+// 2012-01-10: mckoss Modified to use App Engine back end
 
-exports.extend({
-    'init': init
-});
+// Load the application once the DOM is ready, using `jQuery.ready`:
+$(function(){
 
-function init() {
-    // Load templates after document is ready
-    AppView.statsTemplate = _.template($('#stats-template').html());
-    TodoView.template =  _.template($('#todo-template').html());
+  // Todo Model
+  // ----------
 
-    // Start the app
-    new AppView();
-}
-
-$(document).ready(init);
-
-var Todo = Backbone.Model.extend({
-
-    url: "/todos",
-    // Default attributes for the todo.
-    defaults: {
-      content: "empty todo...",
-      done: false,
-      order: 0
+  // Our basic **Todo** model has `text`, `order`, and `done` attributes.
+  window.Todo = Backbone.Model.extend({
+    // Default attributes for a todo item.
+    defaults: function() {
+      return {
+        done:  false,
+        order: Todos.nextOrder()
+      };
     },
 
-    // Ensure that each todo created has `content`.
-    initialize: function() {
-      if (!this.get("content")) {
-        this.set({"content": this.defaults.content});
-      }
+    // Toggle the `done` state of this todo item.
+    toggle: function() {
+      this.save({done: !this.get("done")});
     }
-});
 
-var TodoList = Backbone.Collection.extend({
+  });
+
+  // Todo Collection
+  // ---------------
+
+  // The collection of todos is backed by *localStorage* instead of a remote
+  // server.
+  window.TodoList = Backbone.Collection.extend({
 
     // Reference to this collection's model.
     model: Todo,
     url: '/todos',
+
     // Filter down the list of all todo items that are finished.
     done: function() {
       return this.filter(function(todo){ return todo.get('done'); });
@@ -59,132 +57,57 @@ var TodoList = Backbone.Collection.extend({
     comparator: function(todo) {
       return todo.get('order');
     }
-});
 
-// TODO: Should be 'todos' - not a constructor function
-var Todos = new TodoList();
+  });
 
-var AppView = Backbone.View.extend({
+  // Create our global collection of **Todos**.
+  window.Todos = new TodoList;
 
-    // Instead of generating a new element, bind to the existing skeleton of
-    // the App already present in the HTML.
-    el: $("#todoapp"),
+  // Todo Item View
+  // --------------
 
-    // Delegated events for creating new items, and clearing completed ones.
-    events: {
-      "keypress #new-todo":  "createOnEnter",
-      "keyup #new-todo":     "showTooltip",
-      "click .todo-clear a": "clearCompleted"
-    },
+  // The DOM element for a todo item...
+  window.TodoView = Backbone.View.extend({
 
-    // At initialization we bind to the relevant events on the `Todos`
-    // collection, when items are added or changed. Kick things off by
-    // loading any preexisting todos from the server.
-    initialize: function() {
-      _.bindAll(this, 'addOne', 'addAll', 'render');
-
-      this.input = $("#new-todo");
-
-      Todos.bind('add', this.addOne);
-      Todos.bind('reset', this.addAll);
-      Todos.bind('all', this.render);
-
-      Todos.fetch();
-    },
-
-    // Re-rendering the App just means refreshing the statistics -- the rest
-    // of the app doesn't change.
-    render: function() {
-      var done = Todos.done().length;
-      $('#todo-stats').html(AppView.statsTemplate({
-        total:      Todos.length,
-        done:       Todos.done().length,
-        remaining:  Todos.remaining().length
-      }));
-    },
-
-    // Add a single todo item to the list by creating a view for it, and
-    // appending its element to the `<ul>`.
-    addOne: function(todo) {
-      var view = new TodoView({model: todo});
-      $("#todo-list").append(view.render().el);
-    },
-
-    // Add all items in the **Todos** collection at once.
-    addAll: function() {
-      Todos.each(this.addOne);
-    },
-
-    // Generate the attributes for a new Todo item.
-    newAttributes: function() {
-      return {
-        content: this.input.val(),
-        order:   Todos.nextOrder(),
-        done:    false
-      };
-    },
-
-    // If you hit return in the main input field, create new **Todo** model,
-    // persisting it to the server (will generate a POST request)
-    createOnEnter: function(e) {
-      if (e.keyCode != 13) return;
-      Todos.create(this.newAttributes());
-      this.input.val('');
-    },
-
-    // Clear all done todo items, destroying their models.
-    // This will cause the views to delete as well by sending an event,
-    // and will generate a DELETE request to the server)
-    clearCompleted: function() {
-      _.each(Todos.done(), function(todo){ todo.destroy(); });
-      return false;
-    },
-
-    // Lazily show the tooltip that tells you to press `enter` to save
-    // a new todo item, after one second.
-    showTooltip: function(e) {
-      var tooltip = $(".ui-tooltip-top");
-      var val = this.input.val();
-      tooltip.fadeOut();
-      if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
-      if (val == '' || val == this.input.attr('placeholder')) return;
-      var show = function(){ tooltip.show().fadeIn(); };
-      this.tooltipTimeout = _.delay(show, 1000);
-    }
-
-});
-
-var TodoView = Backbone.View.extend({
-    model: Todo,
     //... is a list tag.
     tagName:  "li",
+
+    // Cache the template function for a single item.
+    template: _.template($('#item-template').html()),
 
     // The DOM events specific to an item.
     events: {
       "click .check"              : "toggleDone",
-      "dblclick div.todo-content" : "edit",
+      "dblclick div.todo-text"    : "edit",
       "click span.todo-destroy"   : "clear",
       "keypress .todo-input"      : "updateOnEnter"
     },
 
+    // The TodoView listens for changes to its model, re-rendering.
     initialize: function() {
-      _.bindAll(this, 'render');
-
-      this.model.bind('change', this.render);
-      this.model.bind('destroy', this.remove);
+      this.model.bind('change', this.render, this);
+      this.model.bind('destroy', this.remove, this);
     },
 
+    // Re-render the contents of the todo item.
     render: function() {
-      $(this.el).html(TodoView.template(this.model.toJSON()));
-
-      // save a reference to the DOM element to avoid extra lookups
-      this.input = $('.todo-input');
+      $(this.el).html(this.template(this.model.toJSON()));
+      this.setText();
       return this;
+    },
+
+    // To avoid XSS (not that it would be harmful in this particular app),
+    // we use `jQuery.text` to set the contents of the todo item.
+    setText: function() {
+      var text = this.model.get('text');
+      this.$('.todo-text').text(text);
+      this.input = this.$('.todo-input');
+      this.input.bind('blur', _.bind(this.close, this)).val(text);
     },
 
     // Toggle the `"done"` state of the model.
     toggleDone: function() {
-      this.model.save({done : !this.model.get("done")});
+      this.model.toggle();
     },
 
     // Switch this view into `"editing"` mode, displaying the input field.
@@ -195,7 +118,7 @@ var TodoView = Backbone.View.extend({
 
     // Close the `"editing"` mode, saving changes to the todo.
     close: function() {
-      this.model.save({content: this.input.val()});
+      this.model.save({text: this.input.val()});
       $(this.el).removeClass("editing");
     },
 
@@ -212,9 +135,95 @@ var TodoView = Backbone.View.extend({
     // Remove the item, destroy the model.
     clear: function() {
       this.model.destroy();
-      this.remove();
     }
 
-});
+  });
 
-}); // seagtug.todos
+  // The Application
+  // ---------------
+
+  // Our overall **AppView** is the top-level piece of UI.
+  window.AppView = Backbone.View.extend({
+
+    // Instead of generating a new element, bind to the existing skeleton of
+    // the App already present in the HTML.
+    el: $("#todoapp"),
+
+    // Our template for the line of statistics at the bottom of the app.
+    statsTemplate: _.template($('#stats-template').html()),
+
+    // Delegated events for creating new items, and clearing completed ones.
+    events: {
+      "keypress #new-todo":  "createOnEnter",
+      "keyup #new-todo":     "showTooltip",
+      "click .todo-clear a": "clearCompleted"
+    },
+
+    // At initialization we bind to the relevant events on the `Todos`
+    // collection, when items are added or changed. Kick things off by
+    // loading any preexisting todos that might be saved in *localStorage*.
+    initialize: function() {
+      this.input    = this.$("#new-todo");
+
+      Todos.bind('add',   this.addOne, this);
+      Todos.bind('reset', this.addAll, this);
+      Todos.bind('all',   this.render, this);
+
+      Todos.fetch();
+    },
+
+    // Re-rendering the App just means refreshing the statistics -- the rest
+    // of the app doesn't change.
+    render: function() {
+      this.$('#todo-stats').html(this.statsTemplate({
+        total:      Todos.length,
+        done:       Todos.done().length,
+        remaining:  Todos.remaining().length
+      }));
+    },
+
+    // Add a single todo item to the list by creating a view for it, and
+    // appending its element to the `<ul>`.
+    addOne: function(todo) {
+      var view = new TodoView({model: todo});
+      this.$("#todo-list").append(view.render().el);
+    },
+
+    // Add all items in the **Todos** collection at once.
+    addAll: function() {
+      Todos.each(this.addOne);
+    },
+
+    // If you hit return in the main input field, and there is text to save,
+    // create new **Todo** model persisting it to *localStorage*.
+    createOnEnter: function(e) {
+      var text = this.input.val();
+      if (!text || e.keyCode != 13) return;
+      Todos.create({text: text});
+      this.input.val('');
+    },
+
+    // Clear all done todo items, destroying their models.
+    clearCompleted: function() {
+      _.each(Todos.done(), function(todo){ todo.destroy(); });
+      return false;
+    },
+
+    // Lazily show the tooltip that tells you to press `enter` to save
+    // a new todo item, after one second.
+    showTooltip: function(e) {
+      var tooltip = this.$(".ui-tooltip-top");
+      var val = this.input.val();
+      tooltip.fadeOut();
+      if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
+      if (val == '' || val == this.input.attr('placeholder')) return;
+      var show = function(){ tooltip.show().fadeIn(); };
+      this.tooltipTimeout = _.delay(show, 1000);
+    }
+
+  });
+
+  // Finally, we kick things off by creating the **App**.
+  window.App = new AppView;
+
+});
