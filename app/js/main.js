@@ -22,7 +22,7 @@ var Todo = Backbone.Model.extend({
     }
 });
 
-var Todos = Backbone.Collection.extend({
+var TodoList = Backbone.Collection.extend({
 
     // Reference to this collection's model.
     model: Todo,
@@ -49,6 +49,9 @@ var Todos = Backbone.Collection.extend({
       return todo.get('order');
     }
 });
+
+// TODO: Should be 'todos' - not a constructor function
+var Todos = new TodoList();
 
 var statsTemplate;
 $.ajax({
