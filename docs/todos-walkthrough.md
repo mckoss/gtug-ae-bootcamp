@@ -38,6 +38,8 @@ The ToDos app is composed of server-side and client-side components:
   to display it), of a ToDo item as well as handling user-interface events for a single
   ToDo item.
 - [models/todo.js]: An trivial extension of Backbone's standard model class.
+- [css/todos.css]: And finally, the style sheets used ToDo app beautiful (it looks
+  like this was a generated file - perhaps using [less css].
 
 ### Client-side Templates
 
@@ -46,6 +48,7 @@ The HTML definition of a [Todo item](../app/js/templates/todos.html) and of the
 
   [REST-ful]: http://en.wikipedia.org/wiki/Representational_state_transfer
   [Underscore Templates]: http://documentcloud.github.com/underscore/#template
+  [less css]: http://lesscss.org/
 
   [main.py]: ../app/main.py
   [index.html]: ../app/index.html
@@ -54,4 +57,5 @@ The HTML definition of a [Todo item](../app/js/templates/todos.html) and of the
   [collections/todos.js]: ../app/js/collections/todos.js
   [views/todos.js]: ../app/js/views/todos.js
   [models/todo.js]: ../app/js/models/todo.js
+  [css/todos.css]: ../app/css/todos.css
 
