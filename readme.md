@@ -47,9 +47,9 @@ You should then create your *own copy* of the repository by forking it on GitHub
 
 Now, you need to check out the files to your own machine.
 
-- Go to a directory where you want to install your project files (e.g., ~/src or c:\src).
-- Use the following commands (on Windows, you should run these command from the *Git Bash* shell,
-  not the windows command prompt):
+Go to a directory where you want to install your project files (e.g., ~/src or c:\src).  Then use
+the following commands (on Windows, you should run these command from the *Git Bash* shell,
+not the windows command prompt):
 
     $ git clone `https://github.com/<your-github-username>/gtug-ae-bootcamp`
     $ cd gtug-ae-bootcamp
