@@ -34,18 +34,26 @@ build, and deploy their own copy of the skeleton app by the end of the evening.
 
 # Setup Instructions
 
-You'll need to install Git ([Git Tutorial]) on your machine to get the latest copy of the source code from [GitHub].
+You'll need to install Git ([Git Tutorial]) and create an account on [GitHub].
 
 - Install [Git for Windows](http://help.github.com/mac-set-up-git/)
 - Install [Git for Mac](http://help.github.com/win-set-up-git/)
 - Install [Git for Linux](http://help.github.com/linux-set-up-git/)
 
-Then copy the gtug-ae-bootcamp repository to your machine.  Go to a directory where you want to install your
-project files (e.g., ~/src or c:\src) and then use the following commands (on Windows, you should run these
-command from the *Git Bash* shell, not the windows command prompt).
+You should then create your *own copy* of the repository by forking it on GitHub.
 
-    $ git clone https://github.com/mckoss/gtug-ae-bootcamp
+- Go to the [Master Bootcamp Repository](https://github.com/mckoss/gtug-ae-bootcamp).
+- Click on the *Fork* button.
+
+Now, you need to check out the files to your own machine.
+
+- Go to a directory where you want to install your project files (e.g., ~/src or c:\src).
+- Use the following commands (on Windows, you should run these command from the *Git Bash* shell,
+  not the windows command prompt):
+
+    $ git clone `https://github.com/<your-github-username>/gtug-ae-bootcamp`
     $ cd gtug-ae-bootcamp
+    $ git remote add upstream git://github.com/mckoss/gtug-ae-bootcamp
 
 The rest of your development machine configuration can be setup by running this command:
 
@@ -64,6 +72,12 @@ This script will install (if you don't them already):
   [virtualenv]: http://pypi.python.org/pypi/virtualenv
   [PIL]: http://www.pythonware.com/products/pil/
   [Google App Engine]: http://code.google.com/appengine/docs/python/overview.html
+
+*Note: If you want to merge any updates that have been made on the master in your own
+repository, use the following commands:*
+
+    $ git fetch upstream
+    $ git merge upstream/master
 
 # Running the Todos application
 
