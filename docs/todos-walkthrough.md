@@ -4,12 +4,12 @@ The GTUG App Engine Bootcamp tutorial is based on Ron Reiter's [webapp-boilerpla
 which was a derivative of Thomas Davis's [Backbone Tutorials] and Jérôme Gravel-Niquet's
 [localtodos].
 
-Ron wrote a walkthrough of his application [here][webapp-boilerplate-walkthrough].
+Also see the nice [walkthrough slide-presentation][boilerplate-walkthrough] from Ron.
 
   [webapp-boilerplate]: https://github.com/ronreiter/webapp-boilerplate
   [Backbone Tutorials]: http://backbonetutorials.com/
   [localtodos]: http://localtodos.com/
-  [webapp-boilerplate-walkthrough]: http://www.slideshare.net/ronreiter/writing-html5-web-apps-using-backbonejs-and-gae
+  [boilerplate-walkthrough]: http://www.slideshare.net/ronreiter/writing-html5-web-apps-using-backbonejs-and-gae
 
 ## Application Components
 
@@ -45,7 +45,7 @@ The HTML definition of a [Todo item](../app/js/templates/todos.html) and of the
 [statistics line](../app/js/templates/stats.html) are stored as [Underscore Templates].
 
   [REST-ful]: http://en.wikipedia.org/wiki/Representational_state_transfer
-  [Underscore Tempalates]: http://documentcloud.github.com/underscore/#template
+  [Underscore Templates]: http://documentcloud.github.com/underscore/#template
 
   [main.py]: ../app/main.py
   [index.html]: ../app/index.html
@@ -53,5 +53,5 @@ The HTML definition of a [Todo item](../app/js/templates/todos.html) and of the
   [views/app.js]: ../app/js/views/app.js
   [collections/todos.js]: ../app/js/collections/todos.js
   [views/todos.js]: ../app/js/views/todos.js
-  [models/todo.js]: ../app/js/models/todos.js
+  [models/todo.js]: ../app/js/models/todo.js
 
