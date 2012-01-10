@@ -17,8 +17,10 @@ The ToDos app is composed of these parts (click on the links to browse the sourc
 
 - [main.py] - This is the entire App Engine backend!  It is a pure [REST-ful] interface
   for dealing with ToDo items and the Todo collection (list).
-  - **ToDoListHandler** - Used to retrieve the list of all tasks and create new ToDo items (CR)
-  - **ToDoItemHandler** - Used to update and delete individual ToDo's (UD)
+  - **ToDoListHandler** - Used to retrieve the list of all tasks and create new ToDo items
+  (the **CR**UD in CRUD)
+  - **ToDoItemHandler** - Used to update and delete individual ToDo's
+  (the CR**UD** in CRUD)
 - [index.html] - A (static) page that loads a [style sheet][todo.css] and require.js - which
   in turn loads [main.js].
 - [main.js] - A simple list of dependencies - all the javascript files that need to be loaded
