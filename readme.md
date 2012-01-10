@@ -58,12 +58,12 @@ This script will install (if you don't them already):
 3. [virtualenv]: Python environment isolation builder.
 4. [Google App Engine]: Google's web application service (for Python).
 
-    [Git Tutorial]: http://gitimmersion.com/index.html
-    [Python 2.5]: http://www.python.org/getit/releases/2.5.6/
-    [pip]: http://pypi.python.org/pypi/pip
-    [virtualenv]: http://pypi.python.org/pypi/virtualenv
-    [PIL]: http://www.pythonware.com/products/pil/
-    [Google App Engine]: http://code.google.com/appengine/docs/python/overview.html
+  [Git Tutorial]: http://gitimmersion.com/index.html
+  [Python 2.5]: http://www.python.org/getit/releases/2.5.6/
+  [pip]: http://pypi.python.org/pypi/pip
+  [virtualenv]: http://pypi.python.org/pypi/virtualenv
+  [PIL]: http://www.pythonware.com/products/pil/
+  [Google App Engine]: http://code.google.com/appengine/docs/python/overview.html
 
 # Running the Todos application
 
@@ -117,4 +117,4 @@ Alternatively, you can deploy via the command line via:
 
     $ appcfg.py update app
 
-    [App Engine Admin Console]: https://appengine.google.com/
+  [App Engine Admin Console]: https://appengine.google.com/
