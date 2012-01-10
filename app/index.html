@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <title>Todo App - GAE - Backbone - RequireJs - Ron Reiter</title>
-  <link rel="stylesheet" href="css/todos.css">
-  <script src="js/libs/namespace-plus.js"></script>
-  <script src="js/libs/jquery.js"></script>
-  <script src="js/libs/underscore.js"></script>
-  <script src="js/libs/backbone.js"></script>
-  <script src="js/main.js"></script>
-</head>
-<body>
+  <head>
+    <title>Todo App - GAE - Backbone - RequireJs - Ron Reiter</title>
+    <link rel="stylesheet" href="css/todos.css">
+    <script src="js/libs/namespace-plus.js"></script>
+    <script src="js/libs/jquery.js"></script>
+    <script src="js/libs/underscore.js"></script>
+    <script src="js/libs/backbone.js"></script>
+    <script src="js/main.js"></script>
+  </head>
+  <body>
 
-<div id="todoapp">
+    <div id="todoapp">
 
       <div class="title">
         <h1>Todos</h1>
@@ -35,14 +35,44 @@
     </div>
 
     <div id="credits">
-        <p>REST example by
+      <p>REST example by
         <a href="http://ronreiter.com">Ron Reiter</a>.
-        <p>Modularized by
+      <p>Modularized by
         <a href="http://backbonetutorials.com">Thomas Davis</a>.
         Originally by
-      <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
+        <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
       </p>
     </div>
 
-</body>
+    <script type="text/template" id="todo-template">
+      <div class="todo <%= done ? 'done' : '' %>">
+        <div class="display">
+          <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
+          <div class="todo-content"><%- content %></div>
+          <span class="todo-destroy"></span>
+        </div>
+        <div class="edit">
+          <input class="todo-input" type="text" value="<%- content %>" />
+        </div>
+      </div>
+    </script>
+
+    <script type="text/template" id="stats-template">
+      <% if (total) { %>
+      <span class="todo-count">
+        <span class="number"><%= remaining %></span>
+        <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
+      </span>
+      <% } %>
+      <% if (done) { %>
+      <span class="todo-clear">
+        <a href="#">
+          Clear <span class="number-done"><%= done %></span>
+          completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
+        </a>
+      </span>
+      <% } %>
+    </script>
+
+  </body>
 </html>

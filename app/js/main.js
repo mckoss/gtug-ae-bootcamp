@@ -1,8 +1,19 @@
 namespace.module('seagtug.todo', function(exports, require) {
 
-$(document).ready(function () {
-    new AppView;
+exports.extend({
+    'init': init
 });
+
+function init() {
+    // Load templates after document is ready
+    AppView.statsTemplate = _.template($('#stats-template').html());
+    TodoView.template =  _.template($('#todo-template').html());
+
+    // Start the app
+    new AppView();
+}
+
+$(document).ready(init);
 
 var Todo = Backbone.Model.extend({
 
@@ -53,15 +64,6 @@ var TodoList = Backbone.Collection.extend({
 // TODO: Should be 'todos' - not a constructor function
 var Todos = new TodoList();
 
-var statsTemplate;
-$.ajax({
-    url: '/js/templates/stats.html',
-    dataType: 'html',
-    success: function(data){
-        AppView.statsTemplate = _.template(data);
-    }
-});
-
 var AppView = Backbone.View.extend({
 
     // Instead of generating a new element, bind to the existing skeleton of
@@ -94,7 +96,7 @@ var AppView = Backbone.View.extend({
     // of the app doesn't change.
     render: function() {
       var done = Todos.done().length;
-      this.$('#todo-stats').html(this.statsTemplate({
+      this.$('#todo-stats').html(AppView.statsTemplate({
         total:      Todos.length,
         done:       Todos.done().length,
         remaining:  Todos.remaining().length
@@ -152,15 +154,6 @@ var AppView = Backbone.View.extend({
 
 });
 
-var todosTemplate;
-$.ajax({
-    url: '/js/templates/todos.html',
-    dataType: 'html',
-    success: function (data) {
-        TodoView.template = _.template(data);
-    }
-});
-
 var TodoView = Backbone.View.extend({
     model: Todo,
     //... is a list tag.
@@ -182,7 +175,7 @@ var TodoView = Backbone.View.extend({
     },
 
     render: function() {
-      $(this.el).html(this.template(this.model.toJSON()));
+      $(this.el).html(TodoView.template(this.model.toJSON()));
 
       // save a reference to the DOM element to avoid extra lookups
       this.input = this.$('.todo-input');
