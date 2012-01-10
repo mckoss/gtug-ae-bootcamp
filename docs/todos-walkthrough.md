@@ -4,7 +4,7 @@ The GTUG App Engine Bootcamp tutorial is based on Jérôme Gravel-Niquet's [loca
 with Ron Reiter's [App Engine backend][webapp-boilerplate].
 
 *Note: I've remove the RequireJS component of Ron's boilterplate app as I found it fragile and
-difficult to debug when module dependencies were not processed properly).
+difficult to debug when module dependencies were not processed properly.*
 
 There is an excellent [annotated listing][localtodos-source] of the original todos.js application.
 
