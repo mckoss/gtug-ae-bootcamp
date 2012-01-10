@@ -105,8 +105,8 @@ if [ "$REPLY" = "y" ]; then
         ln -f -s $ENV_DIR/Scripts/activate.bat
     else
         ln -f -s $ENV_DIR/bin/activate
+        source activate
     fi
-    source activate
     # pip install PIL
 fi
 
@@ -116,6 +116,7 @@ if [ "$REPLY" = "y" ]; then
         download $AE_FILES/GoogleAppEngine-$AE_VERSION.msi
         cd $DOWN_DIR
         msiexec -i $FILE
+        cd $PROJ_DIR
     elif [ $platform == "Mac" ]; then
         download $AE_FILES/GoogleAppEngineLauncher-$AE_VERSION.dmg
         open $DOWN_DIR/$FILE
@@ -126,4 +127,9 @@ if [ "$REPLY" = "y" ]; then
     fi
 fi
 
-echo "Type 'source activate' to use this environment"
+if [ $platform == "Windows" ]; then
+    echo "Open a Windows Command shell to use this environment."
+    echo "And then type activate.bat"
+else
+    echo "Type 'source activate' to use this environment"
+fi
