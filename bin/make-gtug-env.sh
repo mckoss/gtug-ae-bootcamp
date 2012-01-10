@@ -6,6 +6,7 @@ AE_DIR=$PROJDIR/appengine
 AE_BIN=$AE_DIR/google_appengine
 ENV_DIR=$PROJDIR/gtugenv
 
+AE_FILES=http://googleappengine.googlecode.com/files
 AE_VERSION="1.6.1"
 PYTHON_CMD=python2.5
 
@@ -106,14 +107,23 @@ if [ "$REPLY" = "y" ]; then
         ln -f -s $ENV_DIR/bin/activate
     fi
     source activate
-    pip install PIL
+    # pip install PIL
 fi
 
 read -p "Install App Engine ($AE_VERSION)? (y/n): "
 if [ "$REPLY" = "y" ]; then
-    rm -rf appengine
-    download_zip http://googleappengine.googlecode.com/files/google_appengine_$AE_VERSION.zip $AE_DIR
-    ln -f -s $AE_BIN/*.py $ENV_DIR/bin
+    if [ $platform == "Windows" ]; then
+        download $AE_FILES/GoogleAppEngine-$AE_VERSION.msi
+        cd $DOWN_DIR
+        msiexec -i $FILE
+    elif [ $platform == "Mac" ]; then
+        download $AE_FILES/GoogleAppEngineLauncher-$AE_VERSION.dmg
+        open $DOWN_DIR/$FILE
+    else
+        rm -rf appengine
+        download_zip $AE_FILES/google_appengine_$AE_VERSION.zip $AE_DIR
+        ln -f -s $AE_BIN/*.py $ENV_DIR/bin
+    fi
 fi
 
 echo "Type 'source activate' to use this environment"
