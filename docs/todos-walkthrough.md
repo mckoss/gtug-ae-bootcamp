@@ -29,7 +29,7 @@ The ToDos app is composed of server-side and client-side components:
 - [index.html] - A (static) page that loads a [style sheet][todo.css] and require.js - which
   in turn loads [main.js].  Note the special `<script>` tags used to store [Underscrore Templates]
   used to render todo items and the status bar.
-- [css/todos.css]: The style sheets used ToDo app beautiful (it looks
+- [todos.css]: The style sheets used ToDo app beautiful (it looks
   like this was a generated file - using [compass] and [sass]).
 - [main.js] - All the client application code is here:
 - **AppView** - loads all the ToDo items from the server, and sets up keyboard
@@ -49,5 +49,5 @@ The ToDos app is composed of server-side and client-side components:
 
   [main.py]: ../app/main.py
   [index.html]: ../app/index.html
-  [css/todos.css]: ../app/css/todos.css
+  [todos.css]: ../app/css/todos.css
   [main.js]: ../app/js/main.js
