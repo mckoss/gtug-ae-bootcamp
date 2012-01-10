@@ -83,7 +83,7 @@ var AppView = Backbone.View.extend({
     initialize: function() {
       _.bindAll(this, 'addOne', 'addAll', 'render');
 
-      this.input = this.$("#new-todo");
+      this.input = $("#new-todo");
 
       Todos.bind('add', this.addOne);
       Todos.bind('reset', this.addAll);
@@ -96,7 +96,7 @@ var AppView = Backbone.View.extend({
     // of the app doesn't change.
     render: function() {
       var done = Todos.done().length;
-      this.$('#todo-stats').html(AppView.statsTemplate({
+      $('#todo-stats').html(AppView.statsTemplate({
         total:      Todos.length,
         done:       Todos.done().length,
         remaining:  Todos.remaining().length
@@ -107,7 +107,7 @@ var AppView = Backbone.View.extend({
     // appending its element to the `<ul>`.
     addOne: function(todo) {
       var view = new TodoView({model: todo});
-      this.$("#todo-list").append(view.render().el);
+      $("#todo-list").append(view.render().el);
     },
 
     // Add all items in the **Todos** collection at once.
@@ -143,7 +143,7 @@ var AppView = Backbone.View.extend({
     // Lazily show the tooltip that tells you to press `enter` to save
     // a new todo item, after one second.
     showTooltip: function(e) {
-      var tooltip = this.$(".ui-tooltip-top");
+      var tooltip = $(".ui-tooltip-top");
       var val = this.input.val();
       tooltip.fadeOut();
       if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
@@ -178,7 +178,7 @@ var TodoView = Backbone.View.extend({
       $(this.el).html(TodoView.template(this.model.toJSON()));
 
       // save a reference to the DOM element to avoid extra lookups
-      this.input = this.$('.todo-input');
+      this.input = $('.todo-input');
       return this;
     },
 
