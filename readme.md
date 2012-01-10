@@ -95,12 +95,12 @@ Open your browser at http://localhost:8080 to view the application.
 
 # Deploying your application to Google Appengine.
 
-You can run your application at http://<your-app-name>.appspot.com.
+You can run your application at `http://<your-app-name>.appspot.com`.
 
 1. Go to the [App Engine Admin Console]
 2. Click the Create button.
    - You may be asked to verify your account via SMS ... do that.
-   - Application identifier: todos-<your-name> (e.g., "todos-mckoss").
+   - Application identifier: `todos-<your-name>` (e.g., "todos-mckoss").
    - Application Title: "GTUG Bootcamp Sample"
    - Click Create Application
 3. Edit the file gtug-ae-bootcamp/app/app.yaml:
@@ -111,7 +111,7 @@ You can run your application at http://<your-app-name>.appspot.com.
    - Click the Deploy button.
    - Enter your Google Account credentials.
    - Wait until "Completed update of app:" message.
-5. Visit http://todos-<your-name>.appspot.com
+5. Visit `http://todos-<your-name>.appspot.com`
 
 Alternatively, you can deploy via the command line via:
 
