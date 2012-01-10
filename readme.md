@@ -104,7 +104,7 @@ You can run your application at `http://<your-app-name>.appspot.com`.
    - Application Title: "GTUG Bootcamp Sample"
    - Click Create Application
 3. Edit the file gtug-ae-bootcamp/app/app.yaml:
-   - Change 'todos-mckoss' to be 'todos-<your-name>'
+   - Change `todos-mckoss` to be `todos-<your-name>`
 4. Deploy your application.
    - Open the App Engine Luancher
    - Select your app.
