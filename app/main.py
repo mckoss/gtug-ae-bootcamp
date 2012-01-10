@@ -7,7 +7,7 @@ import simplejson
 
 # the Todo model.
 class Todo(db.Model):
-    content = db.StringProperty()
+    text = db.StringProperty()
     done = db.BooleanProperty()
     order = db.IntegerProperty()
 
@@ -25,7 +25,7 @@ class TodoListHandler(webapp.RequestHandler):
         for todo in Todo.all():
             todos.append({
                 "id" : todo.key().id(),
-                "content" : todo.content,
+                "text" : todo.text,
                 "done" : todo.done,
                 "order" : todo.order,
             })
@@ -39,7 +39,7 @@ class TodoListHandler(webapp.RequestHandler):
 
         # create the todo item
         todo = Todo(
-            content = data["content"],
+            text = data["text"],
             done = data["done"],
             order = data["order"],
         ).put()
@@ -47,7 +47,7 @@ class TodoListHandler(webapp.RequestHandler):
         # send it back, and include the new ID.
         self.response.out.write(simplejson.dumps({
             "id" : todo.id(),
-            "content" : data["content"],
+            "text" : data["text"],
             "done" : data["done"],
             "order" : data["order"],
         }))
@@ -63,7 +63,7 @@ class TodoItemHandler(webapp.RequestHandler):
         todo = Todo.get_by_id(int(id))
 
         # update all fields and save to the DB
-        todo.content = data["content"]
+        todo.text = data["text"]
         todo.done = data["done"]
         todo.order = data["order"]
         todo.put()
@@ -71,7 +71,7 @@ class TodoItemHandler(webapp.RequestHandler):
         # send it back using the updated values
         self.response.out.write(simplejson.dumps({
             "id" : id,
-            "content" : todo.content,
+            "text" : todo.text,
             "done" : todo.done,
             "order" : todo.order,
         }))

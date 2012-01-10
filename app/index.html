@@ -1,15 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
   <head>
-    <title>Todo App - GAE - Backbone - RequireJs - Ron Reiter</title>
-    <link rel="stylesheet" href="css/todos.css">
-    <script src="js/libs/namespace-plus.js"></script>
-    <script src="js/libs/jquery.js"></script>
-    <script src="js/libs/underscore.js"></script>
-    <script src="js/libs/backbone.js"></script>
-    <script src="js/main.js"></script>
+    <title>Backbone Demo: Todos</title>
+    <link href="/css/todos.css" media="all" rel="stylesheet" type="text/css"/>
+    <script src="/js/libs/json2.js"></script>
+    <script src="/js/libs/jquery.js"></script>
+    <script src="/js/libs/underscore.js"></script>
+    <script src="/js/libs/backbone.js"></script>
+    <script src="/js/todos.js"></script>
   </head>
+
   <body>
+
+    <!-- Todo App Interface -->
 
     <div id="todoapp">
 
@@ -34,45 +38,49 @@
 
     </div>
 
+    <ul id="instructions">
+      <li>Double-click to edit a todo.</li>
+      <li><a href="../../docs/todos.html">View the annotated source.</a></li>
+    </ul>
+
     <div id="credits">
-      <p>REST example by
-        <a href="http://ronreiter.com">Ron Reiter</a>.
-      <p>Modularized by
-        <a href="http://backbonetutorials.com">Thomas Davis</a>.
-        Originally by
-        <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
-      </p>
+      Created by
+      <br />
+      <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>
     </div>
 
-    <script type="text/template" id="todo-template">
+    <!-- Templates -->
+
+    <script type="text/template" id="item-template">
       <div class="todo <%= done ? 'done' : '' %>">
         <div class="display">
           <input class="check" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
-          <div class="todo-content"><%- content %></div>
+          <div class="todo-text"></div>
           <span class="todo-destroy"></span>
         </div>
         <div class="edit">
-          <input class="todo-input" type="text" value="<%- content %>" />
+          <input class="todo-input" type="text" value="" />
         </div>
       </div>
     </script>
 
     <script type="text/template" id="stats-template">
       <% if (total) { %>
-      <span class="todo-count">
-        <span class="number"><%= remaining %></span>
-        <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
-      </span>
+        <span class="todo-count">
+          <span class="number"><%= remaining %></span>
+          <span class="word"><%= remaining == 1 ? 'item' : 'items' %></span> left.
+        </span>
       <% } %>
       <% if (done) { %>
-      <span class="todo-clear">
-        <a href="#">
-          Clear <span class="number-done"><%= done %></span>
-          completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
-        </a>
-      </span>
+        <span class="todo-clear">
+          <a href="#">
+            Clear <span class="number-done"><%= done %></span>
+            completed <span class="word-done"><%= done == 1 ? 'item' : 'items' %></span>
+          </a>
+        </span>
       <% } %>
     </script>
 
   </body>
+
 </html>
