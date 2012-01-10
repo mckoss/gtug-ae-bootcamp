@@ -1,10 +1,7 @@
 define([
-  'jquery', 
-  'underscore', 
-  'backbone',
   'models/todo',
   'text!templates/todos.html'
-  ], function($, _, Backbone, Todo, todosTemplate){
+  ], function(Todo, todosTemplate){
   var TodoView = Backbone.View.extend({
     model: Todo,
     //... is a list tag.

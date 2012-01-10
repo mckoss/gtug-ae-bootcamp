@@ -1,11 +1,8 @@
 define([
-  'jquery',
-  'underscore', 
-  'backbone',
   'collections/todos',
   'views/todos',
   'text!templates/stats.html'
-  ], function($, _, Backbone, Todos, TodoView, statsTemplate){
+  ], function(Todos, TodoView, statsTemplate){
   var AppView = Backbone.View.extend({
 
     // Instead of generating a new element, bind to the existing skeleton of

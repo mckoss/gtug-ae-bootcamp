@@ -1,4 +1,4 @@
-define(['underscore', 'backbone'], function(_, Backbone) {
+define([], function() {
   var TodoModel = Backbone.Model.extend({
     url: "/todos",
     // Default attributes for the todo.
