@@ -95,6 +95,12 @@ namespace.module('seagtug.todos', function (exports, requires) {
         initialize: function() {
             this.model.bind('change', this.render, this);
             this.model.bind('destroy', this.remove, this);
+            this.model.bind('error', this.reportError, this);
+        },
+
+        reportError: function(model, response, options) {
+             var data = JSON.parse(response.responseText);
+             alert(data.status || response.statusText);
         },
 
         // Re-render the contents of the todo item.

@@ -17,6 +17,13 @@
     <!-- Todo App Interface -->
 
     <div id="todoapp">
+      <div class="menu">
+        {% if username %}
+            Welcome, {{ username }} | <a href="{{ sign_out }}">Sign Out</a>
+        {% else %}
+            <a href="{{ sign_in }}">Sign In</a>
+        {% endif %}
+      </div>
 
       <div class="title">
         <h1>Todos</h1>

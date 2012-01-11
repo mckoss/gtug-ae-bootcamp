@@ -1,28 +1,45 @@
 #!/usr/bin/env python
 from google.appengine.ext import db
 from google.appengine.ext import webapp
+from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
 import simplejson
+import logging
 
-# the Todo model.
+
 class Todo(db.Model):
+    user_id = db.StringProperty()
     text = db.StringProperty()
     done = db.BooleanProperty()
     order = db.IntegerProperty()
 
-class MainHandler(webapp.RequestHandler):
+
+class UserHandler(webapp.RequestHandler):
+    def __init__(self, *args, **kwargs):
+        super(UserHandler, self).__init__(*args, **kwargs)
+        self.user = users.get_current_user()
+        self.user_id = self.user and self.user.user_id() or 'anonymous'
+
+
+class MainHandler(UserHandler):
     def get(self):
-        self.response.out.write(template.render("index.html", {}))
+        username = self.user and self.user.nickname()
+        self.response.out.write(template.render("index.html",
+            {"sign_in": users.create_login_url(self.request.uri),
+             "sign_out": users.create_logout_url(self.request.uri),
+             "username": username,
+             }))
 
 # the Todos collection handler - used to handle requests
 # on the Todos collection.
-class TodoListHandler(webapp.RequestHandler):
+class TodoListHandler(UserHandler):
     # get all todos
     def get(self):
         # serialize all Todos, include the ID in the response
         todos = []
-        for todo in Todo.all():
+        query = Todo.all().filter('user_id =', self.user_id)
+        for todo in query:
             todos.append({
                 "id" : todo.key().id(),
                 "text" : todo.text,
@@ -39,6 +56,7 @@ class TodoListHandler(webapp.RequestHandler):
 
         # create the todo item
         todo = Todo(
+            user_id = self.user_id,
             text = data["text"],
             done = data["done"],
             order = data["order"],
@@ -54,13 +72,20 @@ class TodoListHandler(webapp.RequestHandler):
 
 # The Todo model handler - used to handle requests with
 # a specific ID.
-class TodoItemHandler(webapp.RequestHandler):
+class TodoItemHandler(UserHandler):
     def put(self, id):
         # load the updated model
         data = simplejson.loads(self.request.body)
 
         # get it model using the ID from the request path
         todo = Todo.get_by_id(int(id))
+
+        if todo.user_id != self.user_id:
+            self.error(403)
+            self.response.out.write(simplejson.dumps({
+                'status': "Write permission failure."
+                }))
+            return
 
         # update all fields and save to the DB
         todo.text = data["text"]
