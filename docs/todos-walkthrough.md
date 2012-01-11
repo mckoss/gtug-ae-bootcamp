@@ -12,6 +12,30 @@ There is an excellent [annotated listing][localtodos-source] of the original tod
   [localtodos-source]: http://documentcloud.github.com/backbone/docs/todos.html
   [webapp-boilerplate]: https://github.com/ronreiter/webapp-boilerplate
 
+## Why Use Backbone?
+
+When creating a rich JavaScript client application, Backbone can seem like a lot of overhead.
+But Backbone can help organize your application components into simple self contained
+units, that allow you to separate concerns about your *data* vs. code for your *user interface*.
+
+Backbone structures your application into three types of objects:
+
+- **Views** - A view is associated with some on-page HTML that renders your presentation,
+  but also includes simple mechanisms to bind events (mouse and keyboard) to call functions
+  in your view.
+- **Models** - A model contains the data for your application.  Backbone is particularly nice
+  because all Models can trigger events when their properties change.  This way, your
+  Views can register to receive notification when a model changes, and update their display
+  in real time.  Note also that multiple Views can edit and render the same underlying data -
+  the event mechansim allows both Views to stay in sync.
+- **Collections** - A collection is wrapper around a list of Model items.  This is handy
+  as Collections manage typical CRUD operations and creating new items of a given type,
+  and can return filtered lists of the underlying Models.
+
+Backbone also works well with a [REST-ful] (aka ajax) backend storage service.  It will
+send requests to a web server to Create (POST), Retrieve (GET), Update (PUT), and
+Delete (DELETE) the objects in your system.
+
 ## Application Components
 
 The ToDos app is composed of server-side and client-side components.
