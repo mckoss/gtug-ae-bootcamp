@@ -126,7 +126,7 @@ You can run your application at `http://<your-app-name>.appspot.com`.
    - Click the Deploy button.
    - Enter your Google Account credentials.
    - Wait until "Completed update of app:" message.
-5. Visit `http://todos-<your-name>.appspot.com`
+5. Visit `http://todoapp-<your-name>.appspot.com`
 
 Alternatively, you can deploy via the command line via:
 
