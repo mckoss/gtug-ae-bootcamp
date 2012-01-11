@@ -11,6 +11,7 @@ from google.appengine.ext.webapp import util
 
 from jsonmodel import JSONModel, json_response
 
+
 class Todo(JSONModel):
     user_id = db.StringProperty()
     text = db.StringProperty()
@@ -36,6 +37,7 @@ class MainHandler(UserHandler):
              "username": username,
              }))
 
+
 # the Todos collection handler - used to handle requests
 # on the Todos collection.
 class TodoListHandler(UserHandler):
@@ -53,10 +55,10 @@ class TodoListHandler(UserHandler):
 
         # create the todo item
         todo = Todo(
-            user_id = self.user_id,
-            text = data["text"],
-            done = data["done"],
-            order = data["order"],
+            user_id=self.user_id,
+            text=data["text"],
+            done=data["done"],
+            order=data["order"],
         )
         todo.put()
 
@@ -94,6 +96,7 @@ class TodoItemHandler(UserHandler):
         # find the requested model and delete it.
         todo = Todo.get_by_id(int(id))
         todo.delete()
+
 
 def main():
     application = webapp.WSGIApplication([

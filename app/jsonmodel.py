@@ -11,6 +11,7 @@ JSON_MIMETYPE_CS = JSON_MIMETYPE + '; charset=utf-8'
 
 SIMPLE_TYPES = (int, long, float, bool, dict, basestring, list)
 
+
 class JSONModel(db.Model):
     """ Convert an App Engine Model to a dictionary """
     def to_dict(self):
@@ -48,10 +49,10 @@ class JSONModel(db.Model):
                 setattr(self, key, value)
                 continue
 
-            if prop.date_type == datetime
+            if prop.date_type == datetime:
                 # Convert date/datetime to ms-since-epoch ("new Date()").
                 d = datetime.utcfromtimestamp(value / 1000)
-                d.microseconds = (value % 1000) * 1000;
+                d.microseconds = (value % 1000) * 1000
                 setattr(self, key, value)
             elif isinstance(value, db.GeoPt):
                 result[key] = {'lat': value.lat, 'lon': value.lon}
