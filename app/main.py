@@ -22,7 +22,6 @@ class UserHandler(webapp.RequestHandler):
         super(UserHandler, self).__init__(*args, **kwargs)
         self.user = users.get_current_user()
         self.user_id = self.user and self.user.user_id() or 'anonymous'
-        logging.info("User Handler: %s" % self.user_id)
 
 
 class MainHandler(UserHandler):
