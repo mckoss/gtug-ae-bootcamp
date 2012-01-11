@@ -1,14 +1,17 @@
 #!/usr/bin/env python
+import simplejson as json
+import logging
+import os
+
 from google.appengine.ext import db
 from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
-import simplejson as json
-import logging
-import os
 
-class Todo(db.Model):
+from jsonmodel import JSONModel, pretty_json
+
+class Todo(JSONModel):
     user_id = db.StringProperty()
     text = db.StringProperty()
     done = db.BooleanProperty()
@@ -39,17 +42,9 @@ class TodoListHandler(UserHandler):
     # get all todos
     def get(self):
         # serialize all Todos, include the ID in the response
-        todos = []
         query = Todo.all().filter('user_id =', self.user_id)
-        for todo in query:
-            todos.append({
-                "id" : todo.key().id(),
-                "text" : todo.text,
-                "done" : todo.done,
-                "order" : todo.order,
-            })
-        # send them to the client as JSON
-        self.response.out.write(json.dumps(todos))
+        todos = [todo.to_dict() for todo in query.fetch(1000)]
+        self.response.out.write(pretty_json(todos))
 
     # create a todo
     def post(self):
