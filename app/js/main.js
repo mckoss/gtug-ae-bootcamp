@@ -155,7 +155,7 @@ namespace.module('seagtug.todos', function (exports, requires) {
 
         // Instead of generating a new element, bind to the existing skeleton of
         // the App already present in the HTML.
-        el: $("#todoapp"),
+        el: '#todoapp',
 
         // Delegated events for creating new items, and clearing completed ones.
         events: {
