@@ -19,9 +19,9 @@
     <div id="todoapp">
       <div class="menu">
         {% if username %}
-            Welcome, {{ username }} | <a href="{{ sign_out }}">Sign Out</a>
+            Welcome, {{ username }} | <a href="{{ sign_out|safe }}">Sign Out</a>
         {% else %}
-            <a href="{{ sign_in }}">Sign In</a>
+            <a href="{{ sign_in|safe }}">Sign In</a>
         {% endif %}
       </div>
 

@@ -4,9 +4,9 @@ from google.appengine.ext import webapp
 from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
-import simplejson
+import simplejson as json
 import logging
-
+import os
 
 class Todo(db.Model):
     user_id = db.StringProperty()
@@ -16,18 +16,21 @@ class Todo(db.Model):
 
 
 class UserHandler(webapp.RequestHandler):
+    """ This subclass of RequestHandler sets user and user_id
+    variables to be used in processing the request. """
     def __init__(self, *args, **kwargs):
         super(UserHandler, self).__init__(*args, **kwargs)
         self.user = users.get_current_user()
         self.user_id = self.user and self.user.user_id() or 'anonymous'
+        logging.info("User Handler: %s" % self.user_id)
 
 
 class MainHandler(UserHandler):
     def get(self):
         username = self.user and self.user.nickname()
         self.response.out.write(template.render("index.html",
-            {"sign_in": users.create_login_url(self.request.uri),
-             "sign_out": users.create_logout_url(self.request.uri),
+            {"sign_in": users.create_login_url('/'),
+             "sign_out": users.create_logout_url('/'),
              "username": username,
              }))
 
@@ -47,12 +50,12 @@ class TodoListHandler(UserHandler):
                 "order" : todo.order,
             })
         # send them to the client as JSON
-        self.response.out.write(simplejson.dumps(todos))
+        self.response.out.write(json.dumps(todos))
 
     # create a todo
     def post(self):
         # load the JSON data of the new object
-        data = simplejson.loads(self.request.body)
+        data = json.loads(self.request.body)
 
         # create the todo item
         todo = Todo(
@@ -63,7 +66,7 @@ class TodoListHandler(UserHandler):
         ).put()
 
         # send it back, and include the new ID.
-        self.response.out.write(simplejson.dumps({
+        self.response.out.write(json.dumps({
             "id" : todo.id(),
             "text" : data["text"],
             "done" : data["done"],
@@ -75,14 +78,14 @@ class TodoListHandler(UserHandler):
 class TodoItemHandler(UserHandler):
     def put(self, id):
         # load the updated model
-        data = simplejson.loads(self.request.body)
+        data = json.loads(self.request.body)
 
         # get it model using the ID from the request path
         todo = Todo.get_by_id(int(id))
 
         if todo.user_id != self.user_id:
             self.error(403)
-            self.response.out.write(simplejson.dumps({
+            self.response.out.write(json.dumps({
                 'status': "Write permission failure."
                 }))
             return
@@ -94,7 +97,7 @@ class TodoItemHandler(UserHandler):
         todo.put()
 
         # send it back using the updated values
-        self.response.out.write(simplejson.dumps({
+        self.response.out.write(json.dumps({
             "id" : id,
             "text" : todo.text,
             "done" : todo.done,
