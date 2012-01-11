@@ -133,3 +133,9 @@ Alternatively, you can deploy via the command line via:
     $ appcfg.py update app
 
   [App Engine Admin Console]: https://appengine.google.com/
+
+You can view an online version of the app at http://todoapp-mckoss.appspot.com/
+
+To learn more about the application internals, visit the [Application Walkthrough].
+
+  [Application Walkthrough]: blob/master/docs/todos-walkthrough.md

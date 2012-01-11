@@ -51,7 +51,7 @@ File structure:
 ### Client-side Components
 
 - [index.html] - A (static) page that loads a [style sheet][todo.css] and require.js - which
-  in turn loads [main.js].  Note the special `<script>` tags used to store [Underscrore Templates]
+  in turn loads [main.js].  Note the special `<script>` tags used to store [Underscore Templates]
   used to render todo items and the status bar.
 - [todos.css]: The style sheets used ToDo app beautiful (it looks
   like this was a generated file - using [compass] and [sass]).
