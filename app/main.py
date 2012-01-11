@@ -45,7 +45,7 @@ class TodoListHandler(UserHandler):
     def get(self):
         # serialize all Todos, include the ID in the response
         query = Todo.all().filter('user_id =', self.user_id)
-        todos = [todo.to_dict() for todo in query.fetch(1000)]
+        todos = [todo.get_dict() for todo in query.fetch(1000)]
         json_response(self.response, todos)
 
     # create a todo
@@ -54,16 +54,12 @@ class TodoListHandler(UserHandler):
         data = json.loads(self.request.body)
 
         # create the todo item
-        todo = Todo(
-            user_id=self.user_id,
-            text=data["text"],
-            done=data["done"],
-            order=data["order"],
-        )
+        todo = Todo(user_id=self.user_id)
+        todo.set_dict(data)
         todo.put()
 
         # send it back, and include the new ID.
-        json_response(self.response, todo.to_dict())
+        json_response(self.response, todo.get_dict())
 
 
 # The Todo model handler - used to handle requests with
@@ -83,10 +79,7 @@ class TodoItemHandler(UserHandler):
                 }))
             return
 
-        # update all fields and save to the DB
-        todo.text = data["text"]
-        todo.done = data["done"]
-        todo.order = data["order"]
+        todo.set_dict(data)
         todo.put()
 
         # send it back using the updated values
