@@ -9,7 +9,7 @@ from google.appengine.api import users
 from google.appengine.ext.webapp import template
 from google.appengine.ext.webapp import util
 
-from jsonmodel import JSONModel, pretty_json
+from jsonmodel import JSONModel, json_response
 
 class Todo(JSONModel):
     user_id = db.StringProperty()
@@ -44,7 +44,7 @@ class TodoListHandler(UserHandler):
         # serialize all Todos, include the ID in the response
         query = Todo.all().filter('user_id =', self.user_id)
         todos = [todo.to_dict() for todo in query.fetch(1000)]
-        self.response.out.write(pretty_json(todos))
+        json_response(self.response, todos)
 
     # create a todo
     def post(self):
@@ -57,15 +57,12 @@ class TodoListHandler(UserHandler):
             text = data["text"],
             done = data["done"],
             order = data["order"],
-        ).put()
+        )
+        todo.put()
 
         # send it back, and include the new ID.
-        self.response.out.write(json.dumps({
-            "id" : todo.id(),
-            "text" : data["text"],
-            "done" : data["done"],
-            "order" : data["order"],
-        }))
+        json_response(self.response, todo.to_dict())
+
 
 # The Todo model handler - used to handle requests with
 # a specific ID.
@@ -91,12 +88,7 @@ class TodoItemHandler(UserHandler):
         todo.put()
 
         # send it back using the updated values
-        self.response.out.write(json.dumps({
-            "id" : id,
-            "text" : todo.text,
-            "done" : todo.done,
-            "order" : todo.order,
-        }))
+        json_response(self.response, todo.to_dict())
 
     def delete(self, id):
         # find the requested model and delete it.

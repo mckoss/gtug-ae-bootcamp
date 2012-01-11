@@ -6,6 +6,9 @@ import simplejson as json
 from google.appengine.ext import db
 
 
+JSON_MIMETYPE = 'application/json'
+JSON_MIMETYPE_CS = JSON_MIMETYPE + '; charset=utf-8'
+
 SIMPLE_TYPES = (int, long, float, bool, dict, basestring, list)
 
 class JSONModel(db.Model):
@@ -48,3 +51,8 @@ class ModelEncoder(json.JSONEncoder):
 def pretty_json(json_dict):
     return json.dumps(json_dict, sort_keys=True, indent=2,
                       separators=(',', ': '), cls=ModelEncoder)
+
+
+def json_response(response, json_dict):
+    response.headers['Content-Type'] = JSON_MIMETYPE_CS
+    response.out.write(pretty_json(json_dict))
