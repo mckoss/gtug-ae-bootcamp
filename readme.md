@@ -115,11 +115,11 @@ You can run your application at `http://<your-app-name>.appspot.com`.
 1. Go to the [App Engine Admin Console]
 2. Click the Create button.
    - You may be asked to verify your account via SMS ... do that.
-   - Application identifier: `todos-<your-name>` (e.g., "todos-mckoss").
+   - Application identifier: `todoapp-<your-name>` (e.g., "todoapp-mckoss").
    - Application Title: "GTUG Bootcamp Sample"
    - Click Create Application
 3. Edit the file gtug-ae-bootcamp/app/app.yaml:
-   - Change `todos-mckoss` to be `todos-<your-name>`
+   - Change `todoapp-mckoss` to be `todoapp-<your-name>`
 4. Deploy your application.
    - Open the App Engine Luancher
    - Select your app.
