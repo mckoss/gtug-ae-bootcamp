@@ -45,7 +45,7 @@ namespace.module('seagtug.todos', function (exports, requires) {
 
         // Reference to this collection's model.
         model: Todo,
-        url: '/todos',
+        url: '/data/todo',
 
         // Filter down the list of all todo items that are finished.
         done: function() {

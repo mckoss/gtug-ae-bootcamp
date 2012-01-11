@@ -38,57 +38,73 @@ class MainHandler(UserHandler):
              }))
 
 
-# the Todos collection handler - used to handle requests
-# on the Todos collection.
-class TodoListHandler(UserHandler):
-    # get all todos
-    def get(self):
-        # serialize all Todos, include the ID in the response
-        query = Todo.all().filter('user_id =', self.user_id)
-        todos = [todo.get_dict() for todo in query.fetch(1000)]
-        json_response(self.response, todos)
+class ListHandler(UserHandler):
+    def get_model(self, model_name):
+        if model_name not in handle_models:
+            self.error(404)
+            self.response.out.write("Model '%s' not in %r" % (model_name, handle_models))
+            return None
+        return handle_models[model_name]
 
-    # create a todo
-    def post(self):
-        # load the JSON data of the new object
+    # get all list of items
+    def get(self, model_name):
+        model = self.get_model(model_name)
+        if model is None:
+            return
+        query = model.all().filter('user_id =', self.user_id)
+        items = [item.get_dict() for item in query.fetch(1000)]
+        json_response(self.response, items)
+
+    # create an item
+    def post(self, model_name):
+        model = self.get_model(model_name)
+        if model is None:
+            return
         data = json.loads(self.request.body)
-
-        # create the todo item
-        todo = Todo(user_id=self.user_id)
-        todo.set_dict(data)
-        todo.put()
-
-        # send it back, and include the new ID.
-        json_response(self.response, todo.get_dict())
+        item = model(user_id=self.user_id)
+        item.set_dict(data)
+        item.put()
+        json_response(self.response, item.get_dict())
 
 
 # The Todo model handler - used to handle requests with
 # a specific ID.
-class TodoItemHandler(UserHandler):
-    def put(self, id):
-        # load the updated model
+class ItemHandler(UserHandler):
+    def get_item(self, model_name, id):
+        if model_name not in handle_models:
+            self.error(404)
+            return None
+        model = handle_models[model_name]
+        item = model.get_by_id(int(id))
+        if item is None:
+            self.error(404)
+            return None
+        return item
+
+    def put(self, model_name, id):
+        item = self.get_item(model_name, id)
+        if not item:
+            return
+
         data = json.loads(self.request.body)
-
-        # get it model using the ID from the request path
-        todo = Todo.get_by_id(int(id))
-
-        if todo.user_id != self.user_id:
+        if item.user_id != self.user_id:
             self.error(403)
             self.response.out.write(json.dumps({
                 'status': "Write permission failure."
                 }))
             return
 
-        todo.set_dict(data)
-        todo.put()
+        item.set_dict(data)
+        item.put()
+        json_response(self.response, item.to_dict())
 
-        # send it back using the updated values
-        json_response(self.response, todo.to_dict())
+    def delete(self, model_name, id):
+        item = self.get_item(model_name, id)
+        if item:
+            item.delete()
 
-    def delete(self, id):
-        # find the requested model and delete it.
-        todo = Todo.get_by_id(int(id))
-        todo.delete()
+
+handle_models = {'todo': Todo}
 
 
 def main():
@@ -96,8 +112,8 @@ def main():
         ('/', MainHandler),
 
         # REST API requires two handlers - one with an ID and one without.
-        ('/todos', TodoListHandler),
-        ('/todos/(\d+)', TodoItemHandler),
+        ('/data/(\w+)', ListHandler),
+        ('/data/(\w+)/(\d+)', ItemHandler),
     ], debug=True)
     util.run_wsgi_app(application)
 
