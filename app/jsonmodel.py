@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import datetime
 import time
 import logging
 import simplejson as json
@@ -21,7 +21,7 @@ class JSONModel(db.Model):
 
             if value is None or isinstance(value, SIMPLE_TYPES):
                 result[key] = value
-            elif isinstance(value, date):
+            elif isinstance(value, datetime):
                 # Convert date/datetime to ms-since-epoch ("new Date()").
                 ms = time.mktime(value.utctimetuple()) * 1000
                 ms += getattr(value, 'microseconds', 0) / 1000
@@ -34,6 +34,34 @@ class JSONModel(db.Model):
                 raise ValueError('cannot encode ' + repr(prop))
 
         return result
+
+    def from_dict(self, json_dict):
+        for key, prop in self.properties().iteritems():
+            logging.info("%s: %r (%r)" % (key, prop, prop.data_type))
+
+            if key not in json_dict:
+                continue
+
+            value = json_dict[key]
+
+            if value is None or prop.data_type in SIMPLE_TYPES:
+                setattr(self, key, value)
+                continue
+
+            if prop.date_type == datetime
+                # Convert date/datetime to ms-since-epoch ("new Date()").
+                d = datetime.utcfromtimestamp(value / 1000)
+                d.microseconds = (value % 1000) * 1000;
+                setattr(self, key, value)
+            elif isinstance(value, db.GeoPt):
+                result[key] = {'lat': value.lat, 'lon': value.lon}
+            elif isinstance(value, db.Model):
+                result[key] = to_dict(value)
+            else:
+                raise ValueError('cannot encode ' + repr(prop))
+
+        return result
+
 
 class ModelEncoder(json.JSONEncoder):
     """
