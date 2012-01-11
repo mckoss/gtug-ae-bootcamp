@@ -14,7 +14,31 @@ There is an excellent [annotated listing][localtodos-source] of the original tod
 
 ## Application Components
 
-The ToDos app is composed of server-side and client-side components:
+The ToDos app is composed of server-side and client-side components.
+
+File structure:
+
+    app
+    ├── README.md
+    ├── app.yaml
+    ├── css
+    │   ├── destroy.png
+    │   └── todos.css
+    ├── index.html
+    ├── index.yaml
+    ├── js
+    │   ├── libs
+    │   │   ├── backbone-min.js
+    │   │   ├── backbone.js
+    │   │   ├── jquery-min.js
+    │   │   ├── jquery.js
+    │   │   ├── json2.js
+    │   │   ├── namespace-plus.js
+    │   │   ├── namespace-plus.min.js
+    │   │   ├── underscore-min.js
+    │   │   └── underscore.js
+    │   └── main.js
+    └── main.py
 
 ### Server-side Components
 
