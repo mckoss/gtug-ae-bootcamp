@@ -9,11 +9,9 @@ need to be ready to start working immediately on your project. If you attend, yo
    team members.
 2. Setup and configure a [GitHub] account with a skeleton project including:
     1. [App Engine] - web framework with simple user accounts, database, and hosting.
-    2. [Bootstrap] - HTML design toolkit
-    3. [Backbone.js] - Rich application HTML5 framework
+    2. [Backbone.js] - Rich application HTML5 framework
+    3. [Bootstrap] - HTML design toolkit
     4. [jQuery] - client side Javascript framework
-    5. [RequireJS] - JavaScript file and module loader
-    5. [QUnit] - Unit testing library
 
 Bring your laptop (Windows, Mac, or Linux) with you; we'll have developers able to help you through
 any rough patches you have with tool installation. Our goal is to get everyone able to modify,
@@ -34,7 +32,9 @@ build, and deploy their own copy of the skeleton app by the end of the evening.
 
 # Setup Instructions
 
-You'll need to install Git ([Git Tutorial]) and create an account on [GitHub].
+You'll need to install Git and create an
+account on [GitHub].  If you would like a tutorial on using Git, I recommend
+[Git Simple Guide] and [Git Tutorial].
 
 - Install [Git for Windows](http://help.github.com/mac-set-up-git/)
 - Install [Git for Mac](http://help.github.com/win-set-up-git/)
@@ -67,6 +67,7 @@ This script will install (if you don't them already):
 4. [Google App Engine]: Google's web application service (for Python).
 
   [Git Tutorial]: http://gitimmersion.com/index.html
+  [Git Simple Guide]: http://rogerdudler.github.com/git-guide/
   [Python 2.5]: http://www.python.org/getit/releases/2.5.6/
   [pip]: http://pypi.python.org/pypi/pip
   [virtualenv]: http://pypi.python.org/pypi/virtualenv
