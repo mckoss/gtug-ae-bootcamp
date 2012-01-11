@@ -138,4 +138,4 @@ You can view an online version of the app at http://todoapp-mckoss.appspot.com/
 
 To learn more about the application internals, visit the [Application Walkthrough].
 
-  [Application Walkthrough]: blob/master/docs/todos-walkthrough.md
+  [Application Walkthrough]: gtug-ae-bootcamp/blob/master/docs/todos-walkthrough.md
