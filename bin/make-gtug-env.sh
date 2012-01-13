@@ -68,7 +68,7 @@ if ! check_prog $PYTHON_CMD ; then
         ln -s /c/Python25/python.exe /c/Python25/python2.5.exe
         PATH=$PATH:/c/Python25:/c/Python25/Scripts
         export PATH
-        echo 'PATH=$PATH:/c/Python25:/c/Python25/Scripts' >> $HOME/.profile
+        echo 'PATH=$PATH:/c/Python25:/c/Python25/Scripts' >> "$HOME/.profile"
         cd $PROJ_DIR
     elif [ $platform == "Mac" ]; then
         echo "Please install Python 2.5.6 from http://www.python.org/getit/releases/2.5.6/"
@@ -82,7 +82,7 @@ fi
 if ! check_prog easy_install ; then
     if [ $platform == "Windows" ]; then
         download http://pypi.python.org/packages/2.5/s/setuptools/$SETUP_TOOLS
-        sh $DOWN_DIR/$SETUP_TOOLS
+        sh "$DOWN_DIR/$SETUP_TOOLS"
     else
         echo "Please install easy_install from http://pypi.python.org/pypi/setuptools."
         exit 1
