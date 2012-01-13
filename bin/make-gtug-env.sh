@@ -1,10 +1,10 @@
 #!/bin/bash
-BINDIR=$(cd `dirname $0` && pwd)
-PROJDIR=`dirname $BINDIR`
+BINDIR="$(cd `dirname $0` && pwd)"
+PROJDIR="`dirname $BINDIR`"
 DOWN_DIR="$HOME/Downloads"
-AE_DIR=$PROJDIR/appengine
-AE_BIN=$AE_DIR/google_appengine
-ENV_DIR=$PROJDIR/gtugenv
+AE_DIR="$PROJDIR/appengine"
+AE_BIN="$AE_DIR/google_appengine"
+ENV_DIR="$PROJDIR/gtugenv"
 
 AE_FILES=http://googleappengine.googlecode.com/files
 AE_VERSION="1.6.1"
@@ -31,10 +31,10 @@ function download {
     FILE_PATH=$1
     FILE="$( basename "$FILE_PATH" )"
 
-    mkdir -p $DOWN_DIR
-    if [ ! -f $DOWN_DIR/$FILE ]; then
+    mkdir -p "$DOWN_DIR"
+    if [ ! -f "$DOWN_DIR/$FILE" ]; then
         echo "Downloading $1"
-        if ! curl $FILE_PATH --output $DOWN_DIR/$FILE; then
+        if ! curl "$FILE_PATH" --output "$DOWN_DIR/$FILE"; then
             echo "Failed to download $FILE_PATH"
             exit 1
         fi
@@ -46,24 +46,24 @@ function download {
 function download_zip {
     DEST_PATH=$2
 
-    download $1
+    download "$1"
 
-    rm -rf $DEST_PATH
-    mkdir $DEST_PATH
-    unzip -q $DOWN_DIR/$FILE -d $DEST_PATH
+    rm -rf "$DEST_PATH"
+    mkdir "$DEST_PATH"
+    unzip -q "$DOWN_DIR/$FILE" -d "$DEST_PATH"
 }
 
 function check_prog {
     type $1 > /dev/null 2>&1
 }
 
-cd $PROJDIR
+cd "$PROJDIR"
 
 if ! check_prog $PYTHON_CMD ; then
     echo "You need $PYTHON_CMD to use App Engine."
     if [ $platform == "Windows" ]; then
         download http://www.python.org/ftp/python/$PYTHON_VER/python-$PYTHON_VER.msi
-        cd $DOWN_DIR
+        cd "$DOWN_DIR"
         msiexec -i $FILE
         ln -s /c/Python25/python.exe /c/Python25/python2.5.exe
         PATH=$PATH:/c/Python25:/c/Python25/Scripts
