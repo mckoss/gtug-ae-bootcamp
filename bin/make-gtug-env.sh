@@ -28,7 +28,7 @@ echo "I think your machine is running $platform ..."
 
 # download <url> - do nothing if already downloaded
 function download {
-    FILE_PATH=$1
+    FILE_PATH="$1"
     FILE="$( basename "$FILE_PATH" )"
 
     mkdir -p "$DOWN_DIR"
@@ -44,7 +44,7 @@ function download {
 # download_zip <url> <destination directory>
 # download and unzip directory to destination
 function download_zip {
-    DEST_PATH=$2
+    DEST_PATH="$2"
 
     download "$1"
 
@@ -69,7 +69,7 @@ if ! check_prog $PYTHON_CMD ; then
         PATH=$PATH:/c/Python25:/c/Python25/Scripts
         export PATH
         echo 'PATH=$PATH:/c/Python25:/c/Python25/Scripts' >> "$HOME/.profile"
-        cd $PROJ_DIR
+        cd "$PROJ_DIR"
     elif [ $platform == "Mac" ]; then
         echo "Please install Python 2.5.6 from http://www.python.org/getit/releases/2.5.6/"
         echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
@@ -99,12 +99,12 @@ fi
 
 read -p "Create local Python 2.5 environment? (y/n): "
 if [ "$REPLY" = "y" ]; then
-    rm -rf $ENV_DIR
-    virtualenv --python=$PYTHON_CMD $ENV_DIR
+    rm -rf "$ENV_DIR"
+    virtualenv --python=$PYTHON_CMD "$ENV_DIR"
     if [ $platform = "Windows" ]; then
-        ln -f -s $ENV_DIR/Scripts/activate.bat
+        ln -f -s "$ENV_DIR/Scripts/activate.bat"
     else
-        ln -f -s $ENV_DIR/bin/activate
+        ln -f -s "$ENV_DIR/bin/activate"
         source activate
     fi
     # pip install PIL
@@ -114,16 +114,16 @@ read -p "Install App Engine ($AE_VERSION)? (y/n): "
 if [ "$REPLY" = "y" ]; then
     if [ $platform == "Windows" ]; then
         download $AE_FILES/GoogleAppEngine-$AE_VERSION.msi
-        cd $DOWN_DIR
+        cd "$DOWN_DIR"
         msiexec -i $FILE
         cd $PROJ_DIR
     elif [ $platform == "Mac" ]; then
-        download $AE_FILES/GoogleAppEngineLauncher-$AE_VERSION.dmg
-        open $DOWN_DIR/$FILE
+        download "$AE_FILES/GoogleAppEngineLauncher-$AE_VERSION.dmg"
+        open "$DOWN_DIR/$FILE"
     else
         rm -rf appengine
-        download_zip $AE_FILES/google_appengine_$AE_VERSION.zip $AE_DIR
-        ln -f -s $AE_BIN/*.py $ENV_DIR/bin
+        download_zip "$AE_FILES/google_appengine_$AE_VERSION.zip" "$AE_DIR"
+        ln -f -s "$AE_BIN/*.py" "$ENV_DIR/bin"
     fi
 fi
 
