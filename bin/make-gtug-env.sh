@@ -59,8 +59,8 @@ function check_prog {
 
 cd $PROJDIR
 
-if ! check_prog python2.5 ; then
-    echo "You need Python 2.5 to use App Engine."
+if ! check_prog $PYTHON_CMD ; then
+    echo "You need $PYTHON_CMD to use App Engine."
     if [ $platform == "Windows" ]; then
         download http://www.python.org/ftp/python/$PYTHON_VER/python-$PYTHON_VER.msi
         cd $DOWN_DIR
@@ -75,7 +75,7 @@ if ! check_prog python2.5 ; then
         echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
         exit 1
     else
-        $SUDO apt-get python2.5
+        $SUDO apt-get install $PYTHON_CMD
     fi
 fi
 

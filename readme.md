@@ -36,8 +36,8 @@ You'll need to install Git and create an
 account on [GitHub].  If you would like a tutorial on using Git, I recommend
 [Git Simple Guide] and [Git Tutorial].
 
-- Install [Git for Windows](http://help.github.com/mac-set-up-git/)
-- Install [Git for Mac](http://help.github.com/win-set-up-git/)
+- Install [Git for Windows](http://help.github.com/win-set-up-git/)
+- Install [Git for Mac](http://help.github.com/mac-set-up-git/)
 - Install [Git for Linux](http://help.github.com/linux-set-up-git/)
 
 You should then create your *own copy* of the repository by forking it on GitHub.
