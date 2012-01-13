@@ -51,9 +51,9 @@ Go to a directory where you want to install your project files (e.g., ~/src or c
 the following commands (on Windows, you should run these command from the *Git Bash* shell,
 not the windows command prompt):
 
-    $ git clone https://github.com/<your-github-username>/gtug-ae-bootcamp
+    $ git clone git@github.com:<your-github-username>/gtug-ae-bootcamp.git
     $ cd gtug-ae-bootcamp
-    $ git remote add upstream git://github.com/mckoss/gtug-ae-bootcamp
+    $ git remote add upstream git://github.com/mckoss/gtug-ae-bootcamp.git
 
 The rest of your development machine configuration can be setup by running this command:
 
