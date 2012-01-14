@@ -9,6 +9,7 @@ ENV_DIR="$PROJDIR/gtugenv"
 AE_FILES=http://googleappengine.googlecode.com/files
 AE_VERSION="1.6.1"
 PYTHON_CMD=python2.5
+SETUP_TOOLS=setuptools-0.6c11-py2.5.egg
 
 SUDO=sudo
 
@@ -19,7 +20,6 @@ elif [[ `uname` == *W32* ]]; then
     SUDO=""
     PYTHON_VER="2.5.4"
     PYTHON_CMD=python2.5.exe
-    SETUP_TOOLS=setuptools-0.6c11-py2.5.egg
 else
     platform="Linux"
 fi
@@ -75,18 +75,20 @@ if ! check_prog $PYTHON_CMD ; then
         echo "Or install http://www.python.org/ftp/python/2.5/python-2.5-macosx.dmg"
         exit 1
     else
-        $SUDO apt-get install $PYTHON_CMD
+	# Python 2.5 not in Ubuntu distro :-(
+	sudo add-apt-repository ppa:fkrull/deadsnakes
+	sudo apt-get update
+	sudo apt-get install python2.5
     fi
 fi
 
+if ! check_prog curl; then
+    $SUDO apt-get install curl
+fi
+
 if ! check_prog easy_install ; then
-    if [ $platform == "Windows" ]; then
-        download http://pypi.python.org/packages/2.5/s/setuptools/$SETUP_TOOLS
-        sh "$DOWN_DIR/$SETUP_TOOLS"
-    else
-        echo "Please install easy_install from http://pypi.python.org/pypi/setuptools."
-        exit 1
-    fi
+    download http://pypi.python.org/packages/2.5/s/setuptools/$SETUP_TOOLS
+    sudo sh "$DOWN_DIR/$SETUP_TOOLS"
 fi
 
 if ! check_prog pip ; then
@@ -123,7 +125,7 @@ if [ "$REPLY" = "y" ]; then
     else
         rm -rf appengine
         download_zip "$AE_FILES/google_appengine_$AE_VERSION.zip" "$AE_DIR"
-        ln -f -s "$AE_BIN/*.py" "$ENV_DIR/bin"
+        ln -f -s $AE_BIN/*.py "$ENV_DIR/bin"
     fi
 fi
 
