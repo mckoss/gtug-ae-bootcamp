@@ -10,8 +10,7 @@ need to be ready to start working immediately on your project. If you attend, yo
 2. Setup and configure a [GitHub] account with a skeleton project including:
     1. [App Engine] - web framework with simple user accounts, database, and hosting.
     2. [Backbone.js] - Rich application HTML5 framework
-    3. [Bootstrap] - HTML design toolkit
-    4. [jQuery] - client side Javascript framework
+    3. [jQuery] - client side Javascript framework
 
 Bring your laptop (Windows, Mac, or Linux) with you; we'll have developers able to help you through
 any rough patches you have with tool installation. Our goal is to get everyone able to modify,
